@@ -1,6 +1,10 @@
 import React from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import { pink } from '@material-ui/core/colors'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Routes from './Routes';
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const theme = createMuiTheme({
   palette: {
@@ -21,9 +25,11 @@ const theme = createMuiTheme({
 })
 
 const App = () => (
-    <ThemeProvider theme={theme} >
-      <h1>Aplicação React</h1>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme} >
+        <Routes />
+      </ThemeProvider>
+    </Provider>
 )
 
 export default App;
