@@ -1,9 +1,7 @@
-import { actionTypes } from "../actions/notify.action";
+import { actionTypes } from "../actions/alert.action";
 
 const initialState = {
     open: false,
-    horizontal: 'center',
-    vertical: 'top',
     class: 'success',
     time: 3000,
     msg: ''
