@@ -6,7 +6,7 @@ import './global.css'
 import Routes from './Routes';
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import { Loading } from "./view/components";
+import { Loading, Notify } from "./view/components";
 
 const theme = createMuiTheme({
   palette: {
@@ -29,6 +29,7 @@ const theme = createMuiTheme({
 const App = () => (
     <Provider store={store}>
       <ThemeProvider theme={theme} >
+        <Notify />
         <Loading />
         <Routes />
       </ThemeProvider>
