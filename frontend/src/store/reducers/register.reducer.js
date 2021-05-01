@@ -1,8 +1,13 @@
-import { actionTypes } from "../actions/oauth.action";
+import { actionTypes } from "../actions/register.action";
 
 const initialState = {
-    credentials: {},
-    success: false
+    user: {
+        'name': '',
+        'email': '',
+        'password': ''
+    },
+    success: false,
+    error: {}
 }
 
 export default (state = initialState, { type, payload }) => {
@@ -11,17 +16,25 @@ export default (state = initialState, { type, payload }) => {
     case actionTypes.CHANGE:
         return { 
             ...state, 
-            credentials: {
-                ...state.credentials,
+            user: {
+                ...state.user,
                 ...payload
-            } 
+            }  
         }
 
     case actionTypes.SUCCESS:
         return { 
             ...state, 
             success: payload
+        }  
+        
+    case actionTypes.ERROR:
+        return { 
+            ...state, 
+            error: payload
         }    
+    
+    
 
     default:
         return state
