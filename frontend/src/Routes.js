@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const Auth = lazy(() => import("./view/auth"));
 const Register = lazy(() => import("./view/register"));
+const Vehicles = lazy(() => import("./view/vehicles"));
 
 const Routes = () => (
     <Router>
@@ -12,7 +13,7 @@ const Routes = () => (
                 <Route exact path="/" component={Auth} />
                 <Route path="/login" component={Auth} />
                 <Route path="/register" component={Register} />
-                <Route exact path="/vehicles" component={() => (<h1>Veiculos</h1>)} />
+                <Route exact path="/vehicles" component={Vehicles} />
             </Switch>
         </Suspense>
 
