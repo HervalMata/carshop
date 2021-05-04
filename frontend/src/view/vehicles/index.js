@@ -5,7 +5,6 @@ export default function Vehicles() {
     return (
         <div>
             <Header title="Veículos"/>
-            Veiculos
         </div>
     )
 }

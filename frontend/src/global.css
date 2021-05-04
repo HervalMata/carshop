@@ -6,6 +6,12 @@ a, a:hover {
     text-decoration: none !important;
 }
 
+@media (max-width: 576px) {
+    body {
+        margin-top: 56px;
+    }
+}
+
 .header {
     border-bottom: 2px solid rgb(229, 229, 229);
 }
@@ -53,4 +59,21 @@ a, a:hover {
 .menu-mobile svg {
     font-size: 22px;
     color: #444;
+}
+
+.label-custom {
+    color: #2c2c31;
+    font-weight: 600;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: #eee;
+}
+
+.card {
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(153, 153, 153, .2) 0px 2px 4px 0px;
+    border-radius: 3px;
+    border: none;
 }

@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 const Auth = lazy(() => import("./view/auth"));
 const Register = lazy(() => import("./view/register"));
 const Vehicles = lazy(() => import("./view/vehicles"));
+const VehiclesEdit = lazy(() => import("./view/vehicles/edit"));
 
 const Routes = () => (
     <Router>
@@ -14,6 +15,8 @@ const Routes = () => (
                 <Route path="/login" component={Auth} />
                 <Route path="/register" component={Register} />
                 <Route exact path="/vehicles" component={Vehicles} />
+                <Route exact path="/vehicles/create" component={VehiclesEdit} />
+                <Route exact path="/vehicles/:id/edit" component={VehiclesEdit} />
             </Switch>
         </Suspense>
 
