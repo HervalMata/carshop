@@ -52,7 +52,19 @@ class VehiclesController extends Controller
 
     public function index()
     {
-        //
+        $vehicles = Vehicle::where('user_id', $this->user->id)
+                    ->where('status', 1)
+                    ->with(
+                        'cover', 'vehicle_brand', 'vehicle_fuel',
+                        'vehicle_color', 'vehicle_gearbox'
+                    )->paginate(10);
+
+        $vehicles->transform(function ($vehicle) {
+            $vehicle->vehicle_model = $vehicle->vehicle_model();
+            $vehicle->vehicle_version = $vehicle->vehicle_version();
+            return $vehicle;
+        });
+        return compact('vehicles');            
     }
 
     public function store()
