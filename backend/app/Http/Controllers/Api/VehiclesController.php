@@ -20,6 +20,7 @@ use App\Models\Vehicle;
 use App\Models\Vehicle_brand;
 use App\Models\Vehicle_model;
 use App\Models\Vehicle_version;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class VehiclesController extends Controller
@@ -82,7 +83,17 @@ class VehiclesController extends Controller
 
     public function show($id)
     {
-        //
+        $vehicle = Vehicle::where('user_id', $this->user->id)
+                    ->with('vehicle_photos')->find($id);
+
+        if ($vehicle->id) {
+            $vehicle_brand = $this->brand($vehicle->vehicle_type);
+            $vehicle_model = $this->model($vehicle->vehicle_type, $vehicle->vehicle_model);
+            $vehicle_version = $this->version($vehicle->vehicle_brand, $vehicle->vehicle_model);
+            return array_merge(['vehicle' => $vehicle], $vehicle_brand, $vehicle_model, $vehicle_version, $this->getData());
+        }  
+        
+        return $this->error('Veículo não encontrado.');
     }
 
     public function update(Request $request, $id)
@@ -108,7 +119,20 @@ class VehiclesController extends Controller
 
     public function destroy($id)
     {
-        //
+        $vehicle = Vehicle::where('user_id', $this->user->id)
+                    ->with('vehicle_photos')->find($id);
+
+        if ($vehicle->id) {
+            $dir = 'vehicles/'.$this->user->id.'/'.$id;
+            if ($vehicle->vehicle_photos()->delete()) {
+                Storage::deleteDirectory($dir);
+            }
+            if ($vehicle->delete()) {
+                return $this->success('Veículo excluído com sucesso.');
+            }
+            return $this->error('Erro ao excluir veículo');
+        }
+        return $this->error('Veículo não encontrado.');            
     }
 
     public function brand($vehicle_type)

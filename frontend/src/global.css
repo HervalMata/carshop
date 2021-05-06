@@ -4,6 +4,7 @@
 
 a, a:hover {
     text-decoration: none !important;
+    color: inherit;
 }
 
 @media (max-width: 576px) {
@@ -76,4 +77,44 @@ body {
     box-shadow: rgba(153, 153, 153, .2) 0px 2px 4px 0px;
     border-radius: 3px;
     border: none;
+}
+
+.vehicle-img {
+    min-width: 180px;
+    min-height: 135px;
+}
+
+@media (max-width: 576px) {
+    .vehicle-img {
+        min-width: 100px !important;
+        min-height: 75px !important;
+    }
+
+    .vehicle-img img {
+        max-width: 100px;
+    }
+
+    .MuiMenu-paper {
+        position: fixed !important;
+        top: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        max-width: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .MuiMenu-paper ~ div::before {
+        position: fixed;
+        content: "";
+        z-index: -1;
+        inset: 0px;
+        background-color: rgba(0, 0, 0, .5);
+    }
+}
+
+.MuiMenuItem-root {
+    padding-top: 9px !important;
+    padding-bottom: 9px !important;
+    font-weight: 500 !important;
 }

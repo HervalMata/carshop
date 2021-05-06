@@ -1,7 +1,7 @@
 import { CircularProgress, InputAdornment, FormControlLabel, Checkbox, Button, TextField, Select, MenuItem } from '@material-ui/core'
 import React, { useState, useEffect } from 'react'
 import Header from '../header'
-import { store, update, show, change, cep, brand, model, version, uploadPhoto, deletePhoto, reorderPhoto } from "../../store/actions/vehicles.action";
+import { store, update, show, change, cep, brand, model, version, uploadPhoto, deletePhoto, reorderPhoto, indexResponse } from "../../store/actions/vehicles.action";
 import { useSelector, useDispatch } from "react-redux";
 import MaskedInput from "react-text-mask";
 import NumberFormat from "react-number-format";
@@ -81,6 +81,13 @@ export default function VehicleEdit(props) {
         }
         index();
     }, [dispatch, vehicle_id])
+
+    useEffect(() => {
+        return () => {
+            dispatch(indexResponse({ success: false }))
+        }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const handUpload = (event) => {
         [...event.target.files].map(img => {

@@ -1,10 +1,11 @@
 import React from 'react'
-import { index } from '../../store/actions/vehicles.action'
+import { index, destroy } from '../../store/actions/vehicles.action'
 import { Link } from 'react-router-dom'
 import { Button, CircularProgress, IconButton, Menu, MenuItem, Slide, Fade } from '@material-ui/core'
 import { FaPlus, FaEllipsisV, FaClipboard, FaUser, FaLink, FaPencilAlt, FaTrash, FaShare } from 'react-icons/fa'
+import { FcOpenedFolder } from 'react-icons/fc'
 import { SCROLL, rootUrl } from '../../config/App'
-
+import { Confirm } from "../components";
 import Header from '../header'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -23,6 +24,7 @@ export default function Vehicles() {
     React.useEffect(() => {
         document.addEventListener('scroll', _handleScroll );
         _index();
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const _handleScroll = (event) => {
@@ -56,6 +58,11 @@ export default function Vehicles() {
         })
     }
 
+    const _destroy = (id) => {
+        setState({ isDeleted: id })
+        dispatch(destroy(id)).then(res => res && setState({ isDeleted: null }))
+    }
+
     const Transition = React.forwardRef((props, ref) => {
         return <Slide direction="up" ref={ref} {...props} />
     })
@@ -80,6 +87,13 @@ export default function Vehicles() {
                             {(vehicles.data.length > 0) && 
                                 <div className="card-header">
                                     <h6 className="m-0">Veiculos {vehicles.total}</h6>
+                                </div>
+                            }
+
+                            {(vehicles.data.length > 1) && 
+                                <div className="text-center mt-5 pt-5 mb-5 pb-5">
+                                    <FcOpenedFolder size="70" />
+                                    <h6 className="mt-4 text-muted">Nenhum Veiculo encontrado</h6>
                                 </div>
                             }
 
@@ -121,7 +135,6 @@ export default function Vehicles() {
                                                         TransitionComponent={window.innerWidth < 577 ? Transition : Fade}
                                                         open={(index === parseInt(state.menuEl.id))}
                                                         onClose={() => setState({ menuEl: null })}
-                                                        onClick={() => setState({ menuEl: null })}
                                                     >
                                                         <MenuItem>
                                                             <FaClipboard size="1.2em" className="mr-4" /> Notas
@@ -136,15 +149,24 @@ export default function Vehicles() {
                                                         <div className="dropdown-divider" />
 
                                                         <MenuItem>
+                                                            <Link to={'/vehicles/' + item.id + '/edit'}>
                                                             <FaPencilAlt size="1.2em" className="mr-4" /> Editar
+                                                            </Link>    
                                                         </MenuItem>
-                                                        <MenuItem>
+                                                        <MenuItem onClick={() => setState({ confirmEl: item.id })}>
                                                             <FaTrash size="1.2em" className="mr-4" /> Apagar
                                                         </MenuItem>
                                                         <MenuItem>
                                                             <FaShare size="1.2em" className="mr-4" /> Compartilhar
                                                         </MenuItem>
                                                     </Menu>
+                                                }
+                                                {(state.confirmEl) && 
+                                                    <Confirm 
+                                                        open={(item.id === state.confirmEl)}
+                                                        onConfirm={() => _destroy(item.id)}
+                                                        onClose={() => setState({ confirmEl: null })}
+                                                    />
                                                 }
                                             </div>
                                         </div>
