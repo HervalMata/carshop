@@ -88,10 +88,10 @@ export const uploadPhotoResponse = (payload) => ({
 })
 
 export const uploadPhoto = (item) => dispatch => {
-    dispatch(indexResponse({ uplload_photo: true }));
+    dispatch(indexResponse({ upload_photo: true }));
     return HttpAuth.post('upload/vehicle', item)
                 .then(res => {
-                    dispatch(indexResponse({ uplload_photo: false }));
+                    dispatch(indexResponse({ upload_photo: false }));
                     if (typeof res !== 'undefined') {
                         if (res.data.error) {
                             dispatch(changeNotify({
@@ -113,7 +113,7 @@ export const deletePhotoResponse = (payload) => ({
 })
 
 export const deletePhoto = (id) => dispatch => {
-    dispatch(indexResponse({ uplload_photo: true }));
+    dispatch(indexResponse({ upload_photo: true }));
     return HttpAuth.delete('upload/vehicle' + id)
                 .then(res => {
                     if (typeof res !== 'undefined') {

@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Api\VehiclesController;
 use App\Http\Controllers\webservice\WebServiceController;
-use App\Http\Controllers\Api\Upload\VehicleUploadController;
+use App\Http\Controllers\Api\Uploads\VehicleUploadController;
 use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;

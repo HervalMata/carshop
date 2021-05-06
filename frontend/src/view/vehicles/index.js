@@ -8,6 +8,7 @@ import { SCROLL, rootUrl } from '../../config/App'
 import { Confirm } from "../components";
 import Header from '../header'
 import { useDispatch, useSelector } from 'react-redux'
+import { changeScreenA } from "../../store/actions/navigation.action";
 
 export default function Vehicles() {
     const dispatch = useDispatch()
@@ -136,7 +137,7 @@ export default function Vehicles() {
                                                         open={(index === parseInt(state.menuEl.id))}
                                                         onClose={() => setState({ menuEl: null })}
                                                     >
-                                                        <MenuItem>
+                                                        <MenuItem onClick={() => dispatch(changeScreenA({ open: true}))}>
                                                             <FaClipboard size="1.2em" className="mr-4" /> Notas
                                                         </MenuItem>
                                                         <MenuItem>

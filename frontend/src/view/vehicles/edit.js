@@ -43,7 +43,7 @@ const NumberFormatCustom = (props) => {
             onValueChange={values => {
                 onChange({
                     target: {
-                        value: values
+                        value: values.value
                     }
                 })
             }}
