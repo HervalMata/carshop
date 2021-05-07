@@ -8,7 +8,7 @@ import { SCROLL, rootUrl } from '../../config/App'
 import { Confirm } from "../components";
 import Header from '../header'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeScreenA } from "../../store/actions/navigation.action";
+import { changeScreenC } from "../../store/actions/navigation.action";
 
 export default function Vehicles() {
     const dispatch = useDispatch()
@@ -62,6 +62,18 @@ export default function Vehicles() {
     const _destroy = (id) => {
         setState({ isDeleted: id })
         dispatch(destroy(id)).then(res => res && setState({ isDeleted: null }))
+    }
+
+    const notes = (id) => {
+        setState({ menuEl: null })
+        dispatch(changeScreenC({
+            open: true,
+            type: 'notes',
+            props: {
+                uid: id,
+                type: 'vehicles'
+            }
+        }))
     }
 
     const Transition = React.forwardRef((props, ref) => {
@@ -137,7 +149,7 @@ export default function Vehicles() {
                                                         open={(index === parseInt(state.menuEl.id))}
                                                         onClose={() => setState({ menuEl: null })}
                                                     >
-                                                        <MenuItem onClick={() => dispatch(changeScreenA({ open: true}))}>
+                                                        <MenuItem onClick={() => notes(item.id)}>
                                                             <FaClipboard size="1.2em" className="mr-4" /> Notas
                                                         </MenuItem>
                                                         <MenuItem>

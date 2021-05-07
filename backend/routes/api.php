@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\NotesController;
+use App\Http\Controllers\Api\OwnersController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Api\VehiclesController;
 use App\Http\Controllers\webservice\WebServiceController;
@@ -24,7 +26,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'vehicles' => VehiclesController::class
+    'vehicles' => VehiclesController::class,
+    'notes' => NotesController::class,
+    'owners' => OwnersController::class
 ]);
 
 Route::prefix('upload')->group(function () {

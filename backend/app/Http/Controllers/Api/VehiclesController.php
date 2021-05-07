@@ -51,14 +51,19 @@ class VehiclesController extends Controller
         ];
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $vehicles = Vehicle::where('user_id', $this->user->id)
-                    ->where('status', 1)
-                    ->with(
-                        'cover', 'vehicle_brand', 'vehicle_fuel',
-                        'vehicle_color', 'vehicle_gearbox'
-                    )->paginate(10);
+                    ->where('status', 1);
+        
+        if ($request->owner_id) {
+            $vehicles->where('vehicle_owner', $request->owner_id);
+        }   
+        
+        $vehicles = $vehicles->with(
+            'cover', 'vehicle_brand', 'vehicle_fuel',
+            'vehicle_color', 'vehicle_gearbox'
+            )->paginate(10);
 
         $vehicles->transform(function ($vehicle) {
             $vehicle->vehicle_model = $vehicle->vehicle_model();
@@ -98,6 +103,15 @@ class VehiclesController extends Controller
 
     public function update(Request $request, $id)
     {
+        $vehicle = Vehicle::where('user_id', $this->user->id)
+                    ->find($id);
+
+        if ($request->update_owner) {
+            $vehicle->vehicle_owner = $request->vehicle_owner;
+            if ($vehicle->save()) {
+                return $this->success('Dados atualizados com sucesso.');
+            }
+        }            
         $request['vehicle_photos'] = $id;
         $validator = Validator::make($request->all(), Vehicle::$rules); 
         if ($validator->fails()) {

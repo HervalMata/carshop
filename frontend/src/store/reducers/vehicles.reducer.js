@@ -4,7 +4,7 @@ const initialState = {
     vehicles: {
         data: []
     },
-    vehicle: {
+    vehicle: { 
         vehicle_features: []
     },
     vehicle_brand: [],
@@ -15,6 +15,7 @@ const initialState = {
     error: {}
 }
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default (state = initialState, { type, payload, isLoadMore }) => {
     switch (type) {
 
@@ -41,6 +42,18 @@ export default (state = initialState, { type, payload, isLoadMore }) => {
                 ...payload
                 }
         }
+
+    case actionTypes.UPDATE:
+        let index = state.vehicles.data.findIndex(item => item.id === payload.id)
+        state.vehicles.data[index] = payload;
+        return { 
+            ...state, 
+            vehicles: {
+                ...state.vehicles,
+                data: state.vehicles.data
+            }
+        }      
+
 
     case actionTypes.UPLOAD_PHOTO:
         return { 

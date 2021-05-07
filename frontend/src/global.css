@@ -118,3 +118,50 @@ body {
     padding-bottom: 9px !important;
     font-weight: 500 !important;
 }
+
+.scroll, .scroll-form {
+    height: calc(100vh - 64px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-top: 64px;
+}
+
+.scroll-form {
+    height: calc(100vh - 140px);
+    margin-bottom: 76px;
+}
+
+.notes .form {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 5px 15px 15px;
+}
+
+.notes .send {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.notes .bg-selected {
+    background-color: #eee;
+    opacity: 0.5;
+}
+
+.dialog {
+    width: 400px;
+    max-width: 100%;
+}
+
+.account-avatar {
+    color: #1e88e5 !important;
+    background-color: #bbdefb !important;
+}
+
+.fab-bottom-right {
+    position: absolute !important;
+    bottom: 16px;
+    right: 16px;
+}

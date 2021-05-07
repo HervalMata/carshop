@@ -5,6 +5,7 @@ import { changeNotify } from "./notify.action";
 export const actionTypes = {
     INDEX: 'VEHICLE_INDEX',
     DESTROY: 'VEHICLE_DESTROY',
+    UPDATE: 'VEHICLE_UPDATE',
     CHANGE: 'VEHICLE_CHANGE',
     UPLOAD_PHOTO: 'VEHICLE_UPLOAD_PHOTO',
     DELETE_PHOTO: 'VEHICLE_DELETE_PHOTO',
@@ -48,6 +49,12 @@ export const show = (id) => dispatch => {
     return HttpAuth.get('/vehicles/' + id)
                 .then(res => typeof res !== 'undefined' && dispatch(indexResponse(res.data)))
 }
+
+export const updateResponse = (payload, isLoadMore) => ({
+    type: actionTypes.UPDATE,
+    payload,
+    isLoadMore
+})
 
 export const update = (data) => dispatch => {
     dispatch(changeLoading({ open: true }))
