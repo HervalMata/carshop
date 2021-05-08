@@ -234,6 +234,7 @@ export default function Owners(props) {
                             </React.Fragment>
                         ))}
                     </List>
+                    {(isLoadMore) && <div className="text-center card-body"><CircularProgress /></div>}
                     </>
                 }
                 <Fab onClick={() => _create() } className="fab-bottom-right mr-3 mb-3" color="primary">

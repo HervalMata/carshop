@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { index, destroy } from '../../store/actions/vehicles.action'
 import { Link } from 'react-router-dom'
 import { Button, CircularProgress, IconButton, Menu, MenuItem, Slide, Fade } from '@material-ui/core'
@@ -22,27 +22,38 @@ export default function Vehicles() {
         confirmEl: null
     })
 
-    React.useEffect(() => {
+    useEffect(() => {
         document.addEventListener('scroll', _handleScroll );
-        _index();
+        return () => document.removeEventListener('scroll', _handleScroll);
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        _index(isLoadMore);
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query])
+
+    useEffect(() => {
+        if (isLoadMore) {
+            setQuery({
+                ...query,
+                page: query.page + 1
+            })
+        }
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLoadMore])
+
     const _handleScroll = (event) => {
-        let scrollTop = event.srcElement.body.scrollHeight - (event.srcElement.body.offsetHeight + event.srcElement.body.scrollTop);
-        if(scrollTop < SCROLL) {
+        const { scrollTop, scrollHeight, clientHeight } = event.srcElement.documentElement
+        let scroll = scrollHeight - (clientHeight + scrollTop);
+        if(scroll < SCROLL) {
             if(!isLoadMore && _handleLoadMore());
         }
     }
 
     const _handleLoadMore = () => {
         if(vehicles.current_page < vehicles.last_page) {
-            setQuery({
-                ...query,
-                page: query.page + 1
-            }, () => {
-                _index(true);
-            })
+            setLoadMore(true)
         }
     }
 
@@ -52,10 +63,9 @@ export default function Vehicles() {
 
     const _index = (loadMore) => {
         dispatch(index(query, loadMore)).then(res => {
-            if(res){
-                setLoading(false)
-                if(isLoadMore && setLoadMore(false));
-            }
+            setLoading(false)
+            setLoadMore(false);
+            
         })
     }
 
@@ -96,7 +106,7 @@ export default function Vehicles() {
                             </Link>
                         </div>
 
-                        <div className="card">
+                        <div className="card mb-5">
                             {(vehicles.data.length > 0) && 
                                 <div className="card-header">
                                     <h6 className="m-0">Veiculos {vehicles.total}</h6>
@@ -183,10 +193,12 @@ export default function Vehicles() {
                                                 }
                                             </div>
                                         </div>
+                                        <hr />
                                     </React.Fragment>
                                 ))}
                             </div>
                         </div>
+                        {(isLoadMore) && <div className="text-center card-body"><CircularProgress /></div>}
                     </>
                 }
             </div>

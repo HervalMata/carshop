@@ -1,23 +1,49 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
+import { index } from "../../store/actions/app.action";
 import { FaCar, FaUsers, FaLaptop, FaCreditCard, FaWhatsapp, FaSignOutAlt, FaAngleUp, FaAngleDown } from "react-icons/fa";
 import { MenuItem, MenuList, AppBar, Toolbar, IconButton, Typography, Drawer, List, ListItem, ListItemText, ListItemIcon, Divider, Collapse } from '@material-ui/core';
 import { MdMenu } from "react-icons/md";
+import { changeScreenA } from '../../store/actions/navigation.action';
+import { useDispatch } from "react-redux";
+
 
 export default function Header(props) {
+    const dispatch = useDispatch()
 
-    const [state, setState] = React.useState({
+    const [state, setState] = useState({
         open: false
     })
 
-    const [collapse, setCollapse] = React.useState({
+    const [mobile, setMobile] = useState(window.innerWidth < 577 ? true : false)
+
+    const [collapse, setCollapse] = useState({
         site: false,
         financeiro: false
     })
 
+    useEffect(() => {
+        dispatch(index())
+        window.addEventListener('resize', _resize)
+        //eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const _resize = () => {
+        setMobile(window.innerWidth < 577 ? true : false)
+    }
+
+    const handlePage = (page) => {
+        dispatch(changeScreenA({
+            open: true,
+            type: page,
+            props: {}
+        }))
+        setState({open: false})
+    }
+
     return (
         <>
-            {(window.innerWidth < 577) ? 
+            {(mobile) ? 
                 <AppBar position="fixed">
                     <Toolbar>
                         <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => setState({ open: true })}>
@@ -41,7 +67,7 @@ export default function Header(props) {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                    <button className="nav-link bg-white" to="#">
+                                    <button className="nav-link bg-white" onClick={() => handlePage('owners')} to="/vehicles">
                                         <FaUsers className="icon-lg mr-2" /> Proprietários
                                     </button>
                             </li>
@@ -50,19 +76,19 @@ export default function Header(props) {
                                     <FaLaptop className="icon-lg mr-2" /> Site
                                 </Link>
                                 <MenuList className="dropdown-menu">
-                                    <MenuItem className="dropdown-item">
+                                    <MenuItem onClick={() => handlePage('seo')} className="dropdown-item">
                                         Otimização para o Google
                                     </MenuItem>
-                                    <MenuItem className="dropdown-item">
+                                    <MenuItem onClick={() => handlePage('units')} className="dropdown-item">
                                         Unidades e Telefones
                                     </MenuItem>
-                                    <MenuItem className="dropdown-item">
+                                    <MenuItem onClick={() => handlePage('logo')} className="dropdown-item">
                                         Minha Logo
                                     </MenuItem>
-                                    <MenuItem className="dropdown-item">
+                                    <MenuItem onClick={() => handlePage('domain')} className="dropdown-item">
                                         Dominio
                                     </MenuItem>
-                                    <MenuItem className="dropdown-item">
+                                    <MenuItem onClick={() => handlePage('settings')} className="dropdown-item">
                                         Configurações
                                     </MenuItem>
                                 </MenuList>
@@ -104,13 +130,17 @@ export default function Header(props) {
                             admin@carshop.com
                         </ListItem>
                         <Divider className="mt-2 mb-3" />
-                        <ListItem>
+                        <ListItem
+                            component={Link}
+                            to="/vehicles"
+                            onclick={() => setState({ open: false })}
+                        >
                             <ListItemIcon>
                                 <FaCar />
                             </ListItemIcon>
                             <ListItemText primary="Veículos" />
                         </ListItem>
-                        <ListItem>
+                        <ListItem  onClick={() => handlePage('owners')}>
                             <ListItemIcon>
                                 <FaUsers />
                             </ListItemIcon>
@@ -125,19 +155,19 @@ export default function Header(props) {
                         </ListItem>
                         <Collapse in={collapse.site} timeout="auto" unmountOnExit>
                             <List component="div" disablePadding>
-                                <ListItem>
+                                <ListItem onClick={() => handlePage('seo')}>
                                     <ListItemText className="pl-5" primary="Otimização para o Google" />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem onClick={() => handlePage('units')}>
                                     <ListItemText className="pl-5" primary="Unidades e Telefones" />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem onClick={() => handlePage('logo')}>
                                     <ListItemText className="pl-5" primary="Minha Logo" />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem onClick={() => handlePage('domain')}>
                                     <ListItemText className="pl-5" primary="Dominio" />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem onClick={() => handlePage('settings')}>
                                     <ListItemText className="pl-5" primary="Configurações" />
                                 </ListItem>
                             </List>

@@ -15,6 +15,12 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    protected $guarded = [
+        'id', 'plan_id', 'password', 'remember_token', 'next_expiration',
+        'disabled_account', 'delete_account', 'email_verified_at',
+        'deleted_at', 'expira', 'delete', 'disable', 'status'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -34,6 +40,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'next_expiration',
+        'disabled_account',
+        'delete_account', 
+        'email_verified_at',
+        'created_at',
+        'updated_at',
+        'deleted_at'
     ];
 
     /**

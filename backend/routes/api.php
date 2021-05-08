@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\NotesController;
+use App\Http\Controllers\Api\UnitsController;
 use App\Http\Controllers\Api\OwnersController;
+use App\Http\Controllers\Api\Uploads\LogoController;
+use App\Http\Controllers\Api\AppController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Api\VehiclesController;
 use App\Http\Controllers\webservice\WebServiceController;
@@ -28,10 +31,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::apiResources([
     'vehicles' => VehiclesController::class,
     'notes' => NotesController::class,
-    'owners' => OwnersController::class
+    'owners' => OwnersController::class,
+    'units' => UnitsController::class
 ]);
 
+Route::resource('app', AppController::class);
+
 Route::prefix('upload')->group(function () {
+    Route::resource('logo', LogoController::class)->only(['store', 'destroy']);
     Route::resource('vehicle', VehicleUploadController::class)->only(['store', 'update', 'destroy']);
 });
 
